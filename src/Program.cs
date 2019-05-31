@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Ipfs.Engine;
 using Microsoft.AspNetCore;
@@ -27,23 +28,16 @@ namespace Ipfs.HttpGateway
 
             try
             {
-                CreateWebHostBuilder(args)
-                    .Build()
-                    .Run();
+                using (var gateway = new GatewayHost(IpfsEngine))
+                {
+                    Thread.Sleep(Timeout.Infinite);
+                }
             }
             finally
             {
-                IpfsEngine?.Stop();
+                IpfsEngine.Stop();
             }
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            var url = "http://127.0.0.1:8080";
-
-            return WebHost.CreateDefaultBuilder(args)
-                .UseUrls(url)
-                .UseStartup<Startup>();
-        }
     }
 }
