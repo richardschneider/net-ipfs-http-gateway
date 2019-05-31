@@ -36,7 +36,7 @@ namespace Ipfs.HttpGateway
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }
