@@ -37,11 +37,13 @@ namespace Ipfs.HttpGateway
             }
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseKestrel(options => {
-                    options.Listen(IPAddress.Loopback, 8080); //HTTP port
-                })
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            var url = "http://127.0.0.1:8080";
+
+            return WebHost.CreateDefaultBuilder(args)
+                .UseUrls(url)
                 .UseStartup<Startup>();
+        }
     }
 }
