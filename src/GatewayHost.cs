@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,7 +76,11 @@ namespace Ipfs.HttpGateway
                     .UseUrls(listeningUrl)
                     .Configure(app =>
                     {
-                        app.UseStaticFiles();
+
+                        app.UseStaticFiles(new StaticFileOptions
+                        {
+                            FileProvider = new ManifestEmbeddedFileProvider(this.GetType().Assembly, "wwwroot")
+                        });
                         app.UseMvc();
                     })
                     .ConfigureServices(services =>

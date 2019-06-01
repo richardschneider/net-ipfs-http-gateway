@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <NoDefaultLaunchSettingsFile>True</NoDefaultLaunchSettingsFile>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <IsPackable>true</IsPackable>
     <AssemblyName>Ipfs.HttpGateway</AssemblyName>
     <RootNamespace>Ipfs.HttpGateway</RootNamespace>
@@ -29,6 +30,16 @@
     <PackageProjectUrl>https://github.com/richardschneider/net-ipfs-http-gateway</PackageProjectUrl>
     <PackageIconUrl>https://github.com/ipfs/logo/blob/master/platform-icons/osx-menu-bar.png</PackageIconUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\favicon.ico" />
+    <Content Remove="wwwroot\site.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\favicon.ico" />
+    <EmbeddedResource Include="wwwroot\site.css" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Ipfs.Core" Version="0.51.1" />
