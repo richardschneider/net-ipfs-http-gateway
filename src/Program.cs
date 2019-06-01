@@ -13,14 +13,21 @@ using Microsoft.Extensions.Logging;
 
 namespace Ipfs.HttpGateway
 {
+    /// <summary>
+    ///    Runs the gateway as a separate process.
+    /// </summary>
     public class Program
     {
         /// <summary>
         ///   The IPFS Core API engine.
         /// </summary>
-        public static IpfsEngine IpfsEngine;
+        static IpfsEngine IpfsEngine;
         const string passphrase = "this is not a secure pass phrase";
 
+        /// <summary>
+        ///   The main entry point of the program.
+        /// </summary>
+        /// <param name="args">TODO</param>
         public static void Main(string[] args)
         {
             IpfsEngine = new IpfsEngine(passphrase.ToCharArray());

@@ -1,11 +1,33 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <NoDefaultLaunchSettingsFile>True</NoDefaultLaunchSettingsFile>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <IsPackable>true</IsPackable>
     <AssemblyName>Ipfs.HttpGateway</AssemblyName>
     <RootNamespace>Ipfs.HttpGateway</RootNamespace>
+
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <DebugType>full</DebugType>
+
+    <!-- developer build is always 0.42 -->
+    <AssemblyVersion>0.42.0</AssemblyVersion>
+    <Version>0.42.0</Version>
+
+    <!-- Nuget specs -->
+    <PackageId>Ipfs.HttpGateway</PackageId>
+    <Authors>Richard Schneider</Authors>
+    <Title>IPFS HTTP Gateway</Title>
+    <Description>An IPFS Gateway acts as a bridge between traditional web browsers and IPFS. Through the gateway, users can browse files and websites stored in IPFS as if they were stored in a traditional web server.</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>https://github.com/richardschneider/net-ipfs-http-gateway/releases</PackageReleaseNotes>
+    <Copyright>2019 Richard Schneider</Copyright>
+    <PackageTags>ipfs gateway</PackageTags>
+    <IncludeSymbols>True</IncludeSymbols>
+    <PackageLicenseUrl>https://github.com/richardschneider/net-ipfs-http-gateway/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/richardschneider/net-ipfs-http-gateway</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/ipfs/logo/blob/master/platform-icons/osx-menu-bar.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,10 +36,6 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

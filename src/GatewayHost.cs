@@ -25,6 +25,16 @@ namespace Ipfs.HttpGateway
         Thread thread;
         CancellationTokenSource cancel = new CancellationTokenSource();
 
+        /// <summary>
+        ///   Creates a web host that bridges IPFS and HTTP on "http://127.0.0.1:8080"
+        /// </summary>
+        /// <param name="ipfs">
+        ///   The IPFS core features.
+        /// </param>
+        /// <remarks>
+        ///   This starts the web host on a separate thread.  Use the Dispose method to
+        ///   stop the web host.
+        /// </remarks>
         public GatewayHost(ICoreApi ipfs)
             : this(ipfs, "http://127.0.0.1:8080")
         {
