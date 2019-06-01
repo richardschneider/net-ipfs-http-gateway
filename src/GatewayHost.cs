@@ -76,7 +76,7 @@ namespace Ipfs.HttpGateway
                     .UseUrls(listeningUrl)
                     .Configure(app =>
                     {
-
+                        app.UseDeveloperExceptionPage();
                         app.UseStaticFiles(new StaticFileOptions
                         {
                             FileProvider = new ManifestEmbeddedFileProvider(this.GetType().Assembly, "wwwroot")
