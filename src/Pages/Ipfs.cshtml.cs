@@ -92,7 +92,7 @@ namespace Ipfs.HttpGateway.Pages
         /// <remarks>
         ///   Returns the contents of the file or a page listing the directory.
         /// </remarks>
-        public async Task<IActionResult> OnGetAsync(CancellationToken cancel)
+        public async Task<IActionResult> OnGetAsync(string filename, CancellationToken cancel)
         {
             if (String.IsNullOrWhiteSpace(Path))
             {
@@ -124,7 +124,7 @@ namespace Ipfs.HttpGateway.Pages
             // If a file, send it.
             var etag = new EntityTagHeaderValue("\"" + node.Id + "\"", isWeak: false);
             var provider = new FileExtensionContentTypeProvider();
-            if (!provider.TryGetContentType(Path, out string contentType))
+            if (!provider.TryGetContentType(filename ?? Path, out string contentType))
             {
                 contentType = "application/octet-stream";
             }
