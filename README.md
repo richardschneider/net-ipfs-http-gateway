@@ -26,7 +26,7 @@ using Ipfs.HttpGateway;
 
 var ipfs = new IpfsEngine();
 ipfs.Start();
-var gateway new HttpGatway(ipfs);
+var gateway = new GatewayHost(ipfs);
 ```
 
 ### Usage
