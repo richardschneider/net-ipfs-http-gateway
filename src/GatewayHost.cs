@@ -23,7 +23,7 @@ namespace Ipfs.HttpGateway
         ICoreApi ipfs;
         string listeningUrl;
         bool disposedValue;
-        Thread thread;
+        IWebHost host;
         CancellationTokenSource cancel = new CancellationTokenSource();
 
         /// <summary>
@@ -58,11 +58,53 @@ namespace Ipfs.HttpGateway
         {
             this.ipfs = ipfs;
             this.listeningUrl = url;
-            thread = new Thread(Runner)
+            
+            // Build the web host.
+            host = WebHost.CreateDefaultBuilder()
+                .UseUrls(listeningUrl)
+                .Configure(app =>
+                {
+                    app.UseDeveloperExceptionPage();
+                    app.UseStaticFiles(new StaticFileOptions
+                    {
+                        FileProvider = new ManifestEmbeddedFileProvider(this.GetType().Assembly, "wwwroot")
+                    });
+                    app.UseMvc();
+                })
+                .ConfigureServices(services =>
+                {
+                    services.AddSingleton<ICoreApi>(ipfs);
+                    services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                })
+                .Build();
+
+            var thread = new Thread(Runner)
             {
                 IsBackground = true
             };
+
             thread.Start();
+        }
+
+        /// <summary>
+        ///   Gets the url to the IPFS path.
+        /// </summary>
+        /// <param name="path">
+        ///   The path to an IPFS file or directory.  For example,
+        ///   "Qmhash" or "Qmhash/this/and/that".
+        /// </param>
+        /// <returns>
+        ///   The fully qualified URL to the IPFS <paramref name="path"/>.  For example,
+        ///   "http://127.0.0.1:8080/ipfs/Qmhash".
+        /// </returns>
+        public string IpfsUrl(string path)
+        {
+            if (path.StartsWith('/'))
+            {
+                path = path.Substring(1);
+            }
+
+            return $"{listeningUrl}/ipfs/{path}";
         }
 
         /// <summary>
@@ -72,23 +114,6 @@ namespace Ipfs.HttpGateway
         {
             try
             {
-                var host = WebHost.CreateDefaultBuilder()
-                    .UseUrls(listeningUrl)
-                    .Configure(app =>
-                    {
-                        app.UseDeveloperExceptionPage();
-                        app.UseStaticFiles(new StaticFileOptions
-                        {
-                            FileProvider = new ManifestEmbeddedFileProvider(this.GetType().Assembly, "wwwroot")
-                        });
-                        app.UseMvc();
-                    })
-                    .ConfigureServices(services =>
-                    {
-                        services.AddSingleton<ICoreApi>(ipfs);
-                        services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-                    })
-                    .Build();
                 host.RunAsync(cancel.Token).Wait();
             }
             catch (Exception e)
