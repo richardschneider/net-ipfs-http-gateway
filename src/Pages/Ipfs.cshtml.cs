@@ -96,14 +96,14 @@ namespace Ipfs.HttpGateway.Pages
         {
             if (String.IsNullOrWhiteSpace(Path))
             {
-                return NotFound();
+                return NotFound("The CID is missing.");
             }
 
             try
             {
                 node = await ipfs.FileSystem.ListFileAsync(Path, cancel);
             }
-            catch (ArgumentException e)
+            catch (Exception e) when (e is ArgumentException || e is FormatException)
             {
                 return NotFound(e.Message);
             }
