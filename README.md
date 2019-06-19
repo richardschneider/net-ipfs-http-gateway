@@ -1,6 +1,7 @@
 # IPFS HTTP Gateway
 
 [![build status](https://ci.appveyor.com/api/projects/status/github/richardschneider/net-ipfs-http-gateway?branch=master&svg=true)](https://ci.appveyor.com/project/richardschneider/net-ipfs-http-gateway) 
+[![Coverage Status](https://coveralls.io/repos/github/richardschneider/net-ipfs-http-gateway/badge.svg?branch=master)](https://coveralls.io/github/richardschneider/net-ipfs-http-gateway?branch=master)
 [![Version](https://img.shields.io/nuget/v/Ipfs.HttpGateway.svg)](https://www.nuget.org/packages/Ipfs.HttpGateway)
 
 Allows HTTP access to IPFS files and directories.  An IPFS Gateway acts as 

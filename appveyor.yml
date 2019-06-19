@@ -28,15 +28,12 @@ cache:
 
 environment:
   COVERALLS_REPO_TOKEN:
-    secure: 2/rbxuse7F3p04C3Lin9tH/fCwigpYAW2bB+4hv8nyCcHo+VMjbTCM2Tf/f4TXIQ
+    secure: 3wTbtSAdktv+WBAH9lIgEj93WcYBdntBQqC5bBlEJiHOg4QEPsVnjzzg4Siw+zbk
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 # tools we need for bulding/testing/deploying
 install:
   - choco install gitversion.portable -y
-  - nuget update -self
-#  - choco install docfx -y
-#  - npm install gh-pages -g
 
 # gitversion will change the assembly info
 pull_requests:
@@ -57,16 +54,13 @@ test_script:
 
 after_test: 
 # Generate coverage report
-#    - packages\OpenCover.4.6.519\tools\OpenCover.Console.exe 
-#        -register:user -filter:"+[Ipfs.HttpGateway*]* -[*Tests]*" 
-#        -target:"c:\Program Files\dotnet\dotnet.exe" 
-#        -targetargs:"test -c Debug --no-build --no-restore --framework netcoreapp2.1 test" 
-#        -output:coverage.xml  
-#        -hideskipped:File 
-#        -oldStyle 
-#    - if defined COVERALLS_REPO_TOKEN 
-#        packages\coveralls.net.0.6.0\tools\csmacnz.coveralls.exe 
-#        --opencover -i ./coverage.xml --useRelativePaths --serviceName appveyor --jobId %APPVEYOR_BUILD_NUMBER%
+    - dotnet test -c %CONFIGURATION% -f netcoreapp2.2 --no-build --no-restore test /p:CollectCoverage=true
+    - choco install codecov -y
+    - codecov -f "test/coverage.opencover.xml"
+    - dotnet tool install --global coveralls.net --version 1.0.0
+    - if defined COVERALLS_REPO_TOKEN
+        csmacnz.coveralls.exe
+        --opencover -i test/coverage.opencover.xml --useRelativePaths --serviceName appveyor --jobId %APPVEYOR_BUILD_NUMBER%
 # Build documentation in doc\_site
 #    - docfx doc\docfx.json --logLevel Warning
 #    - 7z a -tzip docs.zip doc\_site
