@@ -1,7 +1,9 @@
 using Ipfs.CoreApi;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Ipfs.HttpGateway
@@ -43,5 +45,40 @@ namespace Ipfs.HttpGateway
             Assert.AreEqual(text, content);
         }
 
+        [TestMethod]
+        public async Task Should_serve_website()
+        {
+            const string html = "<p>good afternoon from IPFS!</p>";
+            var options = new AddFileOptions
+            {
+                Wrap = true
+            };
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes(html));
+            var node = await ipfs.FileSystem.AddAsync(ms, "index.html", options);
+            var url = gateway.IpfsUrl(node.Id);
+
+            var httpClient = new HttpClient();
+            var content = await httpClient.GetStringAsync(url);
+            Assert.AreEqual(html, content);
+        }
+
+        [TestMethod]
+        public async Task Should_browse_directory_without_index()
+        {
+            const string html = "<p>good afternoon from IPFS!</p>";
+            var options = new AddFileOptions
+            {
+                Wrap = true
+            };
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes(html));
+            var node = await ipfs.FileSystem.AddAsync(ms, "foo.html", options);
+            var url = gateway.IpfsUrl(node.Id);
+
+            var httpClient = new HttpClient();
+            var content = await httpClient.GetStringAsync(url);
+            StringAssert.Contains(content, "<html>");
+            StringAssert.Contains(content, node.Id.Encode());
+            StringAssert.Contains(content, "foo.html");
+        }
     }
 }
