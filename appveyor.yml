@@ -43,7 +43,6 @@ pull_requests:
   do_not_increment_build_number: true
 
 before_build:
-  - nuget restore
   - ps: gitversion /output buildserver /updateAssemblyInfo >gitversion.log
 
 build_script:
@@ -54,7 +53,7 @@ after_build:
   - cmd: appveyor PushArtifact "src\bin\%CONFIGURATION%\Ipfs.HttpGateway.%GitVersion_MajorMinorPatch%.nupkg"
 
 test_script:
-#  - dotnet test --logger "console;verbosity=normal" -c %CONFIGURATION% --no-build --no-restore test
+  - dotnet test --logger "console;verbosity=normal" -c %CONFIGURATION% --no-build --no-restore test
 
 after_test: 
 # Generate coverage report
