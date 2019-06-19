@@ -24,12 +24,11 @@
     <Description>An IPFS Gateway acts as a bridge between traditional web browsers and IPFS. Through the gateway, users can browse files and websites stored in IPFS as if they were stored in a traditional web server.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes>https://github.com/richardschneider/net-ipfs-http-gateway/releases</PackageReleaseNotes>
-    <Copyright>2019 Richard Schneider</Copyright>
+    <Copyright>© 2019 Richard Schneider</Copyright>
     <PackageTags>ipfs gateway</PackageTags>
     <IncludeSymbols>True</IncludeSymbols>
-    <PackageLicenseUrl>https://github.com/richardschneider/net-ipfs-http-gateway/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/richardschneider/net-ipfs-http-gateway</PackageProjectUrl>
-    <PackageIconUrl>https://github.com/ipfs/logo/blob/master/platform-icons/osx-menu-bar.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/richardschneider/net-ipfs-core/master/doc/images/ipfs-cs-logo-64x64.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
