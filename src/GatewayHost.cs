@@ -89,6 +89,11 @@ namespace Ipfs.HttpGateway
         }
 
         /// <summary>
+        ///   Gets an URL to the server.
+        /// </summary>
+        public string ServerUrl => serverUrl;
+
+        /// <summary>
         ///   Gets the url to the IPFS path.
         /// </summary>
         /// <param name="path">
@@ -115,14 +120,7 @@ namespace Ipfs.HttpGateway
             if (disposing)
             {
                 host?.StopAsync().ConfigureAwait(false).GetAwaiter().GetResult();
-                try
-                {
-                    host?.Dispose();
-                }
-                catch (Exception)
-                {
-                    // eat it.
-                }
+                host?.Dispose();
                 host = null;
             }
         }

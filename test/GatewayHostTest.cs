@@ -2,6 +2,7 @@ using Ipfs.CoreApi;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,7 @@ namespace Ipfs.HttpGateway
             var node = await ipfs.FileSystem.AddTextAsync("hello");
             var url = gateway.IpfsUrl(node.Id);
             StringAssert.StartsWith(url, "http");
+            StringAssert.StartsWith(url, gateway.ServerUrl);
         }
 
         [TestMethod]
@@ -38,6 +40,19 @@ namespace Ipfs.HttpGateway
             const string text = "good afternoon from IPFS!";
             var node = await ipfs.FileSystem.AddTextAsync(text);
             var url = gateway.IpfsUrl(node.Id);
+
+            var httpClient = new HttpClient();
+
+            var content = await httpClient.GetStringAsync(url);
+            Assert.AreEqual(text, content);
+        }
+
+        [TestMethod]
+        public async Task Should_serve_the_content_with_leading_slash()
+        {
+            const string text = "good afternoon from IPFS!";
+            var node = await ipfs.FileSystem.AddTextAsync(text);
+            var url = gateway.IpfsUrl($"/{node.Id.Encode()}");
 
             var httpClient = new HttpClient();
 
@@ -79,6 +94,28 @@ namespace Ipfs.HttpGateway
             StringAssert.Contains(content, "<html>");
             StringAssert.Contains(content, node.Id.Encode());
             StringAssert.Contains(content, "foo.html");
+        }
+
+        [TestMethod]
+        public async Task Should_404_Missing_Cid()
+        {
+            var url = $"{gateway.ServerUrl}/ipfs/";
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(url);
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+
+            url = $"{gateway.ServerUrl}/ipfs";
+            response = await httpClient.GetAsync(url);
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Should_404_Bad_Cid()
+        {
+            var url = $"{gateway.ServerUrl}/ipfs/Qmhash";
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(url);
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
     }
 }
