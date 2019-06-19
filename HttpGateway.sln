@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpGatewayTests", "test\HttpGatewayTests.csproj", "{2618564F-254F-469F-A714-49182A5EF0E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{1CA35C8E-75B6-44DC-A7FA-6547297B3812}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CA35C8E-75B6-44DC-A7FA-6547297B3812}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CA35C8E-75B6-44DC-A7FA-6547297B3812}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2618564F-254F-469F-A714-49182A5EF0E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2618564F-254F-469F-A714-49182A5EF0E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2618564F-254F-469F-A714-49182A5EF0E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2618564F-254F-469F-A714-49182A5EF0E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
