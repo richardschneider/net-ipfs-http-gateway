@@ -97,6 +97,23 @@ namespace Ipfs.HttpGateway
         }
 
         [TestMethod]
+        public async Task Should_serve_content_from_directory()
+        {
+            const string html = "<p>good afternoon from IPFS!</p>";
+            var options = new AddFileOptions
+            {
+                Wrap = true
+            };
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes(html));
+            var node = await ipfs.FileSystem.AddAsync(ms, "foo.html", options);
+            var url = $"{gateway.IpfsUrl(node.Id)}/foo.html";
+
+            var httpClient = new HttpClient();
+            var content = await httpClient.GetStringAsync(url);
+            Assert.AreEqual(html, content);
+        }
+
+        [TestMethod]
         public async Task Should_404_Missing_Cid()
         {
             var url = $"{gateway.ServerUrl}/ipfs/";
