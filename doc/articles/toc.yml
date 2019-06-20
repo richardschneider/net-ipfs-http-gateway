@@ -1,0 +1,6 @@
+- name: Introduction
+  href: intro.md
+- name: Running
+  href: running.md
+- name: Class Reference
+  href: ../api/Ipfs.HttpGateway.yml
